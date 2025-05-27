@@ -75,8 +75,20 @@ export class TodoItemsService {
     return this.todoItems.get(todoListId).get(Number(itemId));
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} todoItem`;
+  remove(todoListId: number, itemId: number): { message: string } {
+    if (!this.todoListsService.has(todoListId)) {
+      throw new Error(`Todo list with ID ${todoListId} not found`);
+    }
+    const todoList = this.todoItems.get(todoListId);
+    if (!todoList.has(Number(itemId))) {
+      throw new Error(
+        `Todo item with ID ${itemId} not found in list ${todoListId}`,
+      );
+    }
+    todoList.delete(Number(itemId));
+    return {
+      message: `Todo item with ID ${itemId} removed from list ${todoListId}`,
+    };
   }
 
   private nextItemId(listId: number): number {

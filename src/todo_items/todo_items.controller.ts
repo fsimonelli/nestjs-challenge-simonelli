@@ -51,8 +51,8 @@ export class TodoItemsController {
     return this.todoItemsService.markAsDone(param.todoListId, param.itemId);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.todoItemsService.remove(+id);
+  @Delete('/:todoListId/:itemId')
+  remove(@Param() param: { todoListId: number; itemId: number }) {
+    return this.todoItemsService.remove(param.todoListId, param.itemId);
   }
 }
