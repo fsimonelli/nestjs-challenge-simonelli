@@ -17,28 +17,33 @@ export class TodoItemsController {
 
   @Post('/:todoListId')
   create(
-    @Param('todoListId') todoListId: number,
+    @Param() param: { todoListId: number },
     @Body() createTodoItemDto: CreateTodoItemDto,
   ) {
-    return this.todoItemsService.create(todoListId, createTodoItemDto);
+    return this.todoItemsService.create(param.todoListId, createTodoItemDto);
   }
 
-  @Get()
-  findAll() {
-    return this.todoItemsService.findAll();
+  @Get('/:todoListId')
+  findAll(@Param() param: { todoListId: number }) {
+    return this.todoItemsService.findAll(param.todoListId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.todoItemsService.findOne(+id);
+  @Get('/:todoListId/:itemId')
+  findOne(@Param() params: { todoListId: number; itemId: number }) {
+    return this.todoItemsService.findOne(params.todoListId, params.itemId);
   }
 
-  @Patch(':id')
+  @Patch('/:todoListId/:itemId')
   update(
-    @Param('id') id: string,
+    @Param() param: { todoListId: number; itemId: number },
+
     @Body() updateTodoItemDto: UpdateTodoItemDto,
   ) {
-    return this.todoItemsService.update(+id, updateTodoItemDto);
+    return this.todoItemsService.update(
+      param.todoListId,
+      param.itemId,
+      updateTodoItemDto,
+    );
   }
 
   @Delete(':id')
