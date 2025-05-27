@@ -3,7 +3,6 @@ import { TodoListsService } from '../todo_lists/todo_lists.service';
 import { CreateTodoItemDto } from './dto/create-todo_item.dto';
 import { UpdateTodoItemDto } from './dto/update-todo_item.dto';
 import { TodoItem } from 'src/interfaces/todo_item.interface';
-import { TodoList } from 'src/interfaces/todo_list.interface';
 
 @Injectable()
 export class TodoItemsService {
@@ -64,11 +63,11 @@ export class TodoItemsService {
     updateTodoItemDto: UpdateTodoItemDto,
   ) {
     const item = this.findOne(todoListId, itemId);
-    this.todoItems.get(todoListId).set(itemId, {
+    this.todoItems.get(todoListId).set(Number(itemId), {
       ...item,
       ...updateTodoItemDto,
     });
-    return this.todoItems.get(todoListId).get(itemId);
+    return this.todoItems.get(todoListId).get(Number(itemId));
   }
 
   remove(id: number) {
