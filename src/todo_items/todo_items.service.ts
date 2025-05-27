@@ -29,11 +29,19 @@ export class TodoItemsService {
     };
 
     this.todoItems.get(todoListId).set(todoItem.id, todoItem);
-    return this.todoItems;
+    return this.todoItems.get(todoListId).get(todoItem.id);
   }
 
-  findAll() {
-    return `This action returns all todoItems`;
+  findAll(todolistId: number) {
+    if (!this.todoListsService.has(todolistId)) {
+      throw new Error(`Todo list with ID ${todolistId} not found`);
+    }
+    const todoList = this.todoItems.get(todolistId);
+    const res = [];
+    if (todoList) {
+      todoList.forEach((item) => res.push(item));
+    }
+    return res;
   }
 
   findOne(todoListId: number, itemId: number) {
