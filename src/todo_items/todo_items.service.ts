@@ -70,6 +70,11 @@ export class TodoItemsService {
     return this.todoItems.get(todoListId).get(Number(itemId));
   }
 
+  markAsDone(todoListId: number, itemId: number) {
+    this.update(todoListId, itemId, { completed: true });
+    return this.todoItems.get(todoListId).get(Number(itemId));
+  }
+
   remove(id: number) {
     return `This action removes a #${id} todoItem`;
   }

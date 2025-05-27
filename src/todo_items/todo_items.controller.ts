@@ -46,6 +46,11 @@ export class TodoItemsController {
     );
   }
 
+  @Patch('/:todoListId/:itemId/done')
+  markAsDone(@Param() param: { todoListId: number; itemId: number }) {
+    return this.todoItemsService.markAsDone(param.todoListId, param.itemId);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.todoItemsService.remove(+id);
