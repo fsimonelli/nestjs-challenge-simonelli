@@ -100,4 +100,58 @@ describe('TodoItemsController', () => {
       });
     });
   });
+
+  describe('update', () => {
+    it('should update only the description of an existing todo item in the specified todo list', () => {
+      const updateTodoItemDto = {
+        description: 'Por Zoom',
+      };
+      const result = todoItemController.update(
+        { todoListId: 1, itemId: 2 },
+        updateTodoItemDto,
+      );
+      expect(result).toEqual({
+        id: 2,
+        todoListId: 1,
+        name: 'Reunión con el equipo',
+        description: 'Por Zoom',
+        completed: false,
+      });
+    });
+  });
+
+  describe('markAsDone', () => {
+    it('should mark a todo item as done', () => {
+      const result = todoItemController.markAsDone({
+        todoListId: 2,
+        itemId: 2,
+      });
+      expect(result).toEqual({
+        id: 2,
+        todoListId: 2,
+        name: 'Comprar leche',
+        description: 'Entera o descremada',
+        completed: true,
+      });
+    });
+  });
+
+  describe('delete', () => {
+    it('should delete a todo item from the specified todo list', () => {
+      const result = todoItemController.remove({
+        todoListId: 1,
+        itemId: 1,
+      });
+      const items = todoItemService.findAll(1);
+      expect(items).toEqual([
+        {
+          id: 2,
+          todoListId: 1,
+          name: 'Reunión con el equipo',
+          description: 'Por Google Meet',
+          completed: false,
+        },
+      ]);
+    });
+  });
 });
