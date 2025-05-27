@@ -9,12 +9,15 @@ import { TodoList } from 'src/interfaces/todo_list.interface';
 export class TodoItemsService {
   @Inject(TodoListsService)
   private readonly todoListsService: TodoListsService;
+  private readonly todoItems: Map<number, Map<number, TodoItem>> = new Map();
 
   create(todoListId: number, createTodoItemDto: CreateTodoItemDto) {
-    const todoList = this.todoListsService.get(todoListId);
-
-    if (!todoList) {
+    if (!this.todoListsService.has(todoListId)) {
       throw new Error(`Todo list with ID ${todoListId} not found`);
+    }
+
+    if (!this.todoItems.has(todoListId)) {
+      this.todoItems.set(todoListId, new Map());
     }
 
     const todoItem: TodoItem = {
@@ -25,19 +28,39 @@ export class TodoItemsService {
       completed: createTodoItemDto.completed || false,
     };
 
-    return this.todoListsService.add_item(todoListId, todoItem);
+    this.todoItems.get(todoListId).set(todoItem.id, todoItem);
+    return this.todoItems;
   }
 
   findAll() {
     return `This action returns all todoItems`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} todoItem`;
+  findOne(todoListId: number, itemId: number) {
+    if (!this.todoListsService.has(todoListId)) {
+      throw new Error(`Todo list with ID ${todoListId} not found`);
+    }
+    const todoList = this.todoItems.get(todoListId);
+    const todoItem = todoList.get(Number(itemId));
+    if (!todoItem) {
+      throw new Error(
+        `Todo item with ID ${itemId} not found in list ${todoListId}`,
+      );
+    }
+    return todoItem;
   }
 
-  update(id: number, updateTodoItemDto: UpdateTodoItemDto) {
-    return `This action updates a #${id} todoItem`;
+  update(
+    todoListId: number,
+    itemId: number,
+    updateTodoItemDto: UpdateTodoItemDto,
+  ) {
+    const item = this.findOne(todoListId, itemId);
+    this.todoItems.get(todoListId).set(itemId, {
+      ...item,
+      ...updateTodoItemDto,
+    });
+    return this.todoItems.get(todoListId).get(itemId);
   }
 
   remove(id: number) {
@@ -45,13 +68,12 @@ export class TodoItemsService {
   }
 
   private nextItemId(listId: number): number {
-    const todoList = this.todoListsService.get(listId);
-    const items = todoList.items;
-    const last = items
-      .map((x) => x.id)
-      .sort()
-      .reverse()[0];
-
-    return last ? last + 1 : 1;
+    const items = this.todoItems.get(listId);
+    if (!items || items.size === 0) {
+      return 1;
+    }
+    const ids = Array.from(items.keys());
+    const max = ids.length > 0 ? Math.max(...ids) : null;
+    return max + 1;
   }
 }

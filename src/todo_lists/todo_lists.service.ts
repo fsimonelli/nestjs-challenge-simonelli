@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { CreateTodoListDto } from './dtos/create-todo_list';
 import { UpdateTodoListDto } from './dtos/update-todo_list';
 import { TodoList } from '../interfaces/todo_list.interface';
-import { TodoItem } from '../interfaces/todo_item.interface';
 
 @Injectable()
 export class TodoListsService {
@@ -20,11 +19,14 @@ export class TodoListsService {
     return this.todolists.find((x) => x.id === Number(id));
   }
 
+  has(id: number): boolean {
+    return this.todolists.some((x) => x.id === Number(id));
+  }
+
   create(dto: CreateTodoListDto): TodoList {
     const todoList: TodoList = {
       id: this.nextId(),
       name: dto.name,
-      items: [],
     };
 
     this.todolists.push(todoList);
@@ -47,16 +49,6 @@ export class TodoListsService {
     if (index > -1) {
       this.todolists.splice(index, 1);
     }
-  }
-
-  add_item(id: number, item: TodoItem): TodoList {
-    const todoList = this.get(id);
-    if (!todoList.items) {
-      todoList.items = [];
-    }
-    todoList.items.push(item);
-
-    return todoList;
   }
 
   private nextId(): number {
