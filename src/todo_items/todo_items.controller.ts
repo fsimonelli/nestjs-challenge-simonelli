@@ -13,7 +13,7 @@ import { UpdateTodoItemDto } from './dto/update-todo_item.dto';
 
 @Controller('api/todoitems')
 export class TodoItemsController {
-  constructor(private readonly todoItemsService: TodoItemsService) {}
+  constructor(private todoItemsService: TodoItemsService) {}
 
   @Post('/:todoListId')
   create(

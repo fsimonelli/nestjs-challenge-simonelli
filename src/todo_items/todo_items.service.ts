@@ -7,8 +7,14 @@ import { TodoItem } from 'src/interfaces/todo_item.interface';
 @Injectable()
 export class TodoItemsService {
   @Inject(TodoListsService)
-  private readonly todoListsService: TodoListsService;
   private readonly todoItems: Map<number, Map<number, TodoItem>> = new Map();
+
+  constructor(
+    private readonly todoListsService: TodoListsService,
+    todoItems: Map<number, Map<number, TodoItem>> = new Map(),
+  ) {
+    this.todoItems = todoItems;
+  }
 
   create(todoListId: number, createTodoItemDto: CreateTodoItemDto) {
     if (!this.todoListsService.has(todoListId)) {
