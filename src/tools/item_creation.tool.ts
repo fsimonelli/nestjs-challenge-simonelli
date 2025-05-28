@@ -12,7 +12,7 @@ export class ItemCreationTool {
   ) {}
 
   @Tool({
-    name: 'create item',
+    name: 'create-item',
     description: 'Create a new item in a todo list',
     parameters: z.object({
       name: z.string(),
@@ -35,7 +35,7 @@ export class ItemCreationTool {
       content: [
         {
           type: 'text',
-          text: `Item created: ${createdItem.name} in list ${todoList.name}`,
+          text: `Item created: ${createdItem.name} of id ${createdItem.id}, in list ${todoList.name} of id ${todoList.id}`,
         },
       ],
     };

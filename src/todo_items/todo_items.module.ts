@@ -14,6 +14,6 @@ import { TodoItem } from 'src/interfaces/todo_item.interface';
     },
   ],
   imports: [TodoListsModule],
-  exports: [TodoItemsService],
+  exports: [TodoItemsService, 'TODO_ITEMS_MAP'],
 })
 export class TodoItemsModule {}
