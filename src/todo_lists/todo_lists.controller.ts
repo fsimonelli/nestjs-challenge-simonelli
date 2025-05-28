@@ -26,6 +26,11 @@ export class TodoListsController {
     return this.todoListsService.get(param.todoListId);
   }
 
+  @Get('/:todoListName')
+  showByName(@Param() param: { todoListName: string }): TodoList {
+    return this.todoListsService.getByName(param.todoListName);
+  }
+
   @Post()
   create(@Body() dto: CreateTodoListDto): TodoList {
     return this.todoListsService.create(dto);

@@ -19,6 +19,10 @@ export class TodoListsService {
     return this.todolists.find((x) => x.id === Number(id));
   }
 
+  getByName(name: string): TodoList {
+    return this.todolists.find((x) => x.name === name);
+  }
+
   has(id: number): boolean {
     return this.todolists.some((x) => x.id === Number(id));
   }
