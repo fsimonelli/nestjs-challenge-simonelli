@@ -6,12 +6,10 @@ import { TodoItem } from 'src/interfaces/todo_item.interface';
 
 @Injectable()
 export class TodoItemsService {
-  @Inject(TodoListsService)
-  private readonly todoItems: Map<number, Map<number, TodoItem>> = new Map();
-
   constructor(
     private readonly todoListsService: TodoListsService,
-    todoItems: Map<number, Map<number, TodoItem>> = new Map(),
+    @Inject('TODO_ITEMS_MAP')
+    private readonly todoItems: Map<number, Map<number, TodoItem>>,
   ) {
     this.todoItems = todoItems;
   }
