@@ -7,8 +7,8 @@ import { TodoItemsService } from 'src/todo_items/todo_items.service';
 @Injectable()
 export class ItemCreationTool {
   constructor(
-    private readonly todoItemsService: TodoItemsService,
     private readonly todoListsService: TodoListsService,
+    private readonly todoItemsService: TodoItemsService,
   ) {}
 
   @Tool({

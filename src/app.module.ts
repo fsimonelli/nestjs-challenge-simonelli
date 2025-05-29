@@ -2,12 +2,13 @@ import { Module } from '@nestjs/common';
 import { TodoListsModule } from './todo_lists/todo_lists.module';
 import { McpModule, McpTransportType } from '@rekog/mcp-nest';
 import { TodoItemsModule } from './todo_items/todo_items.module';
-import { ItemCreationTool } from './tools/item_creation.tool';
+import { ToolsModule } from './tools/tools.module';
 
 @Module({
   imports: [
     TodoListsModule,
     TodoItemsModule,
+    ToolsModule,
     McpModule.forRoot({
       name: 'my-mcp-server',
       version: '1.0.0',
@@ -15,6 +16,5 @@ import { ItemCreationTool } from './tools/item_creation.tool';
     }),
   ],
   controllers: [],
-  providers: [ItemCreationTool],
 })
 export class AppModule {}
