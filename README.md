@@ -36,6 +36,18 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Build
+
+```bash
+npm run build
+```
+
+## Run MCP
+
+```bash
+node dist/mcp_client/claude_client.js dist/src/main.js
+```
+
 Check integration tests at: (https://github.com/crunchloop/interview-tests)
 
 ## Contact
