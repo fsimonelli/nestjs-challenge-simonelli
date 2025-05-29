@@ -7,12 +7,10 @@ import { TodoItem } from 'src/interfaces/todo_item.interface';
 @Injectable()
 export class TodoItemsService {
   constructor(
-    private readonly todoListsService: TodoListsService,
     @Inject('TODO_ITEMS_MAP')
     private readonly todoItems: Map<number, Map<number, TodoItem>>,
-  ) {
-    this.todoItems = todoItems;
-  }
+    private readonly todoListsService: TodoListsService,
+  ) {}
 
   create(todoListId: number, createTodoItemDto: CreateTodoItemDto) {
     if (!this.todoListsService.has(todoListId)) {
@@ -56,6 +54,22 @@ export class TodoItemsService {
     if (!todoItem) {
       throw new Error(
         `Todo item with ID ${itemId} not found in list ${todoListId}`,
+      );
+    }
+    return todoItem;
+  }
+
+  findOneByName(todoListId: number, name: string) {
+    if (!this.todoListsService.has(todoListId)) {
+      throw new Error(`Todo list with ID ${todoListId} not found`);
+    }
+    const todoList = this.todoItems.get(todoListId);
+    const todoItem = Array.from(todoList.values()).find(
+      (item) => item.name === name,
+    );
+    if (!todoItem) {
+      throw new Error(
+        `Todo item with name "${name}" not found in list ${todoListId}`,
       );
     }
     return todoItem;

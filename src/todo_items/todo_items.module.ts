@@ -7,11 +7,11 @@ import { TodoItem } from 'src/interfaces/todo_item.interface';
 @Module({
   controllers: [TodoItemsController],
   providers: [
-    TodoItemsService,
     {
       provide: 'TODO_ITEMS_MAP',
       useValue: new Map<number, Map<number, TodoItem>>(),
     },
+    TodoItemsService,
   ],
   imports: [TodoListsModule],
   exports: [TodoItemsService, 'TODO_ITEMS_MAP'],
