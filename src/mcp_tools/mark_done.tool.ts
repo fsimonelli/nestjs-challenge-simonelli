@@ -3,7 +3,6 @@ import { Tool } from '@rekog/mcp-nest';
 import { z } from 'zod';
 import { TodoListsService } from 'src/todo_lists/todo_lists.service';
 import { TodoItemsService } from 'src/todo_items/todo_items.service';
-import { text } from 'stream/consumers';
 
 @Injectable()
 export class MarkDoneTool {

@@ -35,12 +35,7 @@ export class GetItemsTool {
       content: [
         {
           type: 'text',
-          text: `Found ${todoItems.length} todo items:${todoItems
-            .map(
-              (item) =>
-                `ID: ${item.id} Name: ${item.name} Description: ${item.description} Completed: ${item.completed}`,
-            )
-            .join('\n')}`,
+          text: JSON.stringify(todoItems, null, 2),
         },
       ],
     };
